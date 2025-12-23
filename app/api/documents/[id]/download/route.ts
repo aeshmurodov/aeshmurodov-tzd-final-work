@@ -123,7 +123,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     })
 
   } catch (error) {
-    console.error("[v0] Download error:", error)
+    console.error("[log] Download error:", error)
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
 }

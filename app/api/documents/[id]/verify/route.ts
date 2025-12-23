@@ -79,7 +79,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
         : "Ошибка проверки цифровой подписи"
     })
   } catch (error) {
-    console.error("[v0] Verify document error:", error)
+    console.error("[log] Verify document error:", error)
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
 }

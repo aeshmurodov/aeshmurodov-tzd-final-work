@@ -73,7 +73,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       algorithm: encryptionAlgorithm,
     })
   } catch (error) {
-    console.error("[v0] Encrypt document error:", error)
+    console.error("[log] Encrypt document error:", error)
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
 }

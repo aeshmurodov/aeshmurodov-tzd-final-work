@@ -2,8 +2,7 @@ import { type NextRequest, NextResponse } from "next/server"
 import { sql } from "@/lib/db"
 import { getSession } from "@/lib/session"
 import { logAudit } from "@/lib/audit"
-
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const user = await getSession()
 
@@ -11,7 +10,8 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 })
     }
 
-    const documentId = params.id
+    const { id } = await params
+    const documentId = id
 
     // Get document details before deletion for audit log
     const docResult = await sql`
@@ -39,7 +39,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
     })
 
     return NextResponse.json({ success: true })
-  } catch (error) {
+    } catch (error) {
     console.error("Delete document error:", error)
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }

@@ -73,7 +73,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       publicKey,
     })
   } catch (error) {
-    console.error("[v0] Sign document error:", error)
+    console.error("[log] Sign document error:", error)
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
 }

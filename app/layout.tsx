@@ -9,9 +9,9 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "ЗЭДКД-Next | Система защищенного документооборота",
+  title: "ЗЭДКД| Система защищенного документооборота",
   description: "Enterprise-grade secure electronic document management system with GOST cryptography standards",
-  generator: "v0.app",
+  generator: "Eshmurodov Azizbek",
   icons: {
     icon: [
       {

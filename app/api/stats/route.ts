@@ -38,7 +38,7 @@ export async function GET() {
       audit: auditStats,
     })
   } catch (error) {
-    console.error("[v0] Get stats error:", error)
+    console.error("[log] Get stats error:", error)
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
 }

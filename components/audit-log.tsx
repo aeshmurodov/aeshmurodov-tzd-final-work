@@ -29,7 +29,7 @@ export function AuditLog() {
           setLogs(data.logs || [])
         }
       } catch (err) {
-        console.error("[v0] Failed to load audit logs:", err)
+        console.error("[log] Failed to load audit logs:", err)
       } finally {
         setLoading(false)
       }

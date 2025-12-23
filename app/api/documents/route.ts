@@ -22,7 +22,7 @@ export async function GET() {
 
     return NextResponse.json({ documents })
   } catch (error) {
-    console.error("[v0] Get documents error:", error)
+    console.error("[log] Get documents error:", error)
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
 }
@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ document })
   } catch (error) {
-    console.error("[v0] Upload document error:", error)
+    console.error("[log] Upload document error:", error)
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
 }

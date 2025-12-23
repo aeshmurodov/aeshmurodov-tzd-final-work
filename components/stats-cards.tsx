@@ -28,7 +28,7 @@ export function StatsCards() {
         const data = await response.json()
         setStats(data)
       } catch (err) {
-        console.error("[v0] Failed to load stats:", err)
+        console.error("[log] Failed to load stats:", err)
       }
     }
 
