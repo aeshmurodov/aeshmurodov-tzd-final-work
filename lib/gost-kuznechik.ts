@@ -65,9 +65,8 @@ export class Kuznechik {
       throw new Error("Kuznechik key must be 32 bytes (256 bits)");
     }
 
-    // Создаем новый Uint8Array, копируя значения.
-    // Это гарантирует, что мы работаем с чистым Uint8Array, отвязанным от Buffer.buffer
-    const masterKey = new Uint8Array(key);
+    // Приводим к any для обхода строгой типизации ArrayBuffer vs ArrayBufferLike
+    const masterKey = new Uint8Array(key as any);
     this.keys = this.expandKey(masterKey);
   }
 
@@ -75,10 +74,9 @@ export class Kuznechik {
   private expandKey(key: Uint8Array): Uint8Array[] {
     const keys: Uint8Array[] = new Array(10);
     
-    // Используем .slice самого Uint8Array, а не буфера
-    // Это корректно работает с типами в TypeScript
-    const k1 = key.slice(0, 16);
-    const k2 = key.slice(16, 32);
+    // Используем any для slice
+    const k1 = key.slice(0, 16) as any;
+    const k2 = key.slice(16, 32) as any;
     
     keys[0] = k1;
     keys[1] = k2;
@@ -87,7 +85,8 @@ export class Kuznechik {
     for (let i = 0; i < 32; i++) {
       c[i] = new Uint8Array(16);
       c[i].set([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, i + 1]);
-      c[i] = this.L(c[i]);
+      // Приведение типа для результата L
+      c[i] = this.L(c[i]) as any;
     }
 
     let temp1 = k1;
@@ -100,7 +99,7 @@ export class Kuznechik {
         const l_tmp = this.L(s_tmp); // L
         const next = this.X(l_tmp, temp2); // X
         temp2 = temp1;
-        temp1 = next;
+        temp1 = next as any;
       }
       keys[2 * i + 2] = temp1;
       keys[2 * i + 3] = temp2;
@@ -111,10 +110,9 @@ export class Kuznechik {
 
   // Линейное преобразование L
   private L(block: Uint8Array): Uint8Array {
-    // Создаем копию для работы
-    let state = new Uint8Array(block);
+    // Явное приведение к any для обхода ошибки "Type 'Uint8Array<ArrayBufferLike>' is not assignable..."
+    let state = new Uint8Array(block) as any;
 
-    // Полная реализация L через R-функцию (16 итераций)
     for(let i = 0; i < 16; i++) {
        state = this.R(state);
     }
@@ -127,9 +125,9 @@ export class Kuznechik {
           a15 ^= multiplyGF(state[i], lVec[i]);
       }
       const result = new Uint8Array(16);
-      result.set(state.slice(1, 16), 0); // сдвиг влево
+      result.set(state.slice(1, 16), 0);
       result[15] = a15;
-      return result;
+      return result as any;
   }
 
   // Нелинейное преобразование S
@@ -138,7 +136,7 @@ export class Kuznechik {
     for (let i = 0; i < 16; i++) {
       res[i] = Pi[block[i]];
     }
-    return res;
+    return res as any;
   }
 
   // XOR операция X
@@ -147,23 +145,23 @@ export class Kuznechik {
     for (let i = 0; i < 16; i++) {
       res[i] = a[i] ^ b[i];
     }
-    return res;
+    return res as any;
   }
 
   // Шифрование одного блока (16 байт)
   public encryptBlock(block: Uint8Array): Uint8Array {
     if (block.length !== 16) throw new Error("Block size must be 16 bytes");
     
-    // Создаем копию
-    let state = new Uint8Array(block);
+    // Явное приведение к any для обхода ошибки типов
+    let state = new Uint8Array(block) as any;
     
     for (let i = 0; i < 9; i++) {
-      state = this.X(state, this.keys[i]); // X
-      state = this.S(state); // S
-      state = this.L(state); // L
+      state = this.X(state, this.keys[i]);
+      state = this.S(state);
+      state = this.L(state);
     }
     
-    state = this.X(state, this.keys[9]); // Final X
+    state = this.X(state, this.keys[9]);
     return state;
   }
 }
