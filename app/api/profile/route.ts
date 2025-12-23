@@ -24,12 +24,13 @@ export async function PUT(request: NextRequest) {
     `
 
     // Log audit event
-    await logAudit(user.id, "profile_update", "user", user.id, {
+    // Correct signature: action, userId, documentId, details
+    await logAudit("PROFILE_UPDATE", user.id, undefined, {
       full_name,
       email,
       phone,
     })
-
+    
     return NextResponse.json({
       success: true,
       message: "Профиль обновлен",
