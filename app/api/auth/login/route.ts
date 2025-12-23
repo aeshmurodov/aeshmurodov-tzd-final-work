@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { verifyUser } from "@/lib/auth"
+import { verifyUser, createUser } from "@/lib/auth"
 import { createSession } from "@/lib/session"
 import { logAudit } from "@/lib/audit"
 

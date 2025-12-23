@@ -49,8 +49,8 @@ export function StatsCards() {
           <FileText className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{stats.documents.total}</div>
-          <p className="text-xs text-muted-foreground">Защищено: {stats.documents.byStatus.verified || 0}</p>
+          <div className="text-2xl font-bold">{stats.documents?.total}</div>
+          <p className="text-xs text-muted-foreground">Защищено: {stats.documents?.byStatus?.verified || 0}</p>
         </CardContent>
       </Card>
 
@@ -61,9 +61,9 @@ export function StatsCards() {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">
-            {(stats.documents.byStatus.signed || 0) +
-              (stats.documents.byStatus.encrypted || 0) +
-              (stats.documents.byStatus.verified || 0)}
+            {(stats.documents?.byStatus?.signed || 0) +
+              (stats.documents?.byStatus?.encrypted || 0) +
+              (stats.documents?.byStatus?.verified || 0)}
           </div>
           <p className="text-xs text-muted-foreground">ГОСТ 34.10-2018</p>
         </CardContent>
@@ -75,7 +75,7 @@ export function StatsCards() {
           <Users className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{stats.users.total}</div>
+          <div className="text-2xl font-bold">{stats.users?.total}</div>
           <p className="text-xs text-muted-foreground">Активных в системе</p>
         </CardContent>
       </Card>
@@ -86,8 +86,8 @@ export function StatsCards() {
           <Activity className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{stats.audit.today}</div>
-          <p className="text-xs text-muted-foreground">Всего: {stats.audit.total}</p>
+          <div className="text-2xl font-bold">{stats.audit?.today}</div>
+          <p className="text-xs text-muted-foreground">Всего: {stats.audit?.total}</p>
         </CardContent>
       </Card>
     </div>

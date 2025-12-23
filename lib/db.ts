@@ -18,20 +18,41 @@ export interface User {
   updated_at: Date
 }
 
+// Расширенный список статусов согласно схеме
+export type DocumentStatus = 
+  | "draft"         // Создание (1)
+  | "review"        // Согласование
+  | "approved"      // Утверждение
+  | "execution"     // Исполнение
+  | "pdek_review"   // Заседание ПДЭК (через 4 года)
+  | "declassified"  // Рассекречено (Передача в открытое делопроизводство)
+  | "destroyed"     // Уничтожено (Акт об уничтожении)
+  | "signed"        // Legacy (оставим для совместимости)
+  | "encrypted"     // Legacy
+  | "verified"      // Legacy
+  | "tampered"      // Security check
+
 export interface Document {
   id: string
   filename: string
   original_hash: string
   encrypted_hash?: string
   signature?: string
-  status: "draft" | "signed" | "encrypted" | "verified"
+  status: DocumentStatus
   encryption_algorithm?: string
   uploader_id: string
   file_size?: number
   mime_type?: string
-  encrypted_data?: string
+  encrypted_data?: string // При статусе destroyed здесь будет NULL
   created_at: Date
   updated_at: Date
+  
+  // Новые поля жизненного цикла
+  retention_years?: number
+  pdek_date?: Date
+  act_number?: string
+  act_date?: Date
+  substitution_sheet?: boolean
 }
 
 export interface AuditLog {
